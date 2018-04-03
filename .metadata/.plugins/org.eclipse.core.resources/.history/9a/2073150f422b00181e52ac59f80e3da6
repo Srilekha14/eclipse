@@ -1,0 +1,14 @@
+package cts;
+@FunctionalInterface
+interface add{
+	public int getsum(int a,int b);
+}
+public class test1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		add ad=(a,b)-> a+b;
+		System.out.println(ad.getsum(5,9));
+	}
+
+}

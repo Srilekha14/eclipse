@@ -1,0 +1,93 @@
+package com.beans;
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class EmployeeMain {
+	public static void main(String[] args) {
+		int Choice;
+		ApplicationContext cont=new ClassPathXmlApplicationContext("beans.xml");
+		EmployeeService service=(EmployeeService)cont.getBean("service");
+		Employee employee=(Employee) cont.getBean("employeeObject");
+		do
+		{
+			System.out.println("******* EMPLOYEE MANAGEMENT SYSTEM *******");
+			System.out.println("1.Add\n2.Delete by Id\n3.Display All\n4.Update by Id\n5.EXIT");
+			Scanner ch=new Scanner(System.in);
+			Choice=ch.nextInt();
+			switch(Choice){
+				case 1:
+					System.out.println("**** Performing Insert ****\nEnter Id:");
+					employee.setEmpId(ch.nextInt());
+					System.out.println("Enter Name:");
+					employee.setEmpName(ch.next());
+					System.out.println("Enter Salary:");
+					employee.setSalary(ch.nextDouble());
+					System.out.println("Enter Designation:");
+					employee.setDesignation(ch.next());
+					service.add(employee);
+					System.out.println("**** Employee information stored successfully ****");
+					break;
+				case 2:
+					System.out.println(" *** Performing Delete ***\nEnter Id:");
+					employee.setEmpId(ch.nextInt());
+					service.delete(employee);
+					System.out.println("*** Employee deleted successfully ***");
+					break;
+				case 3:
+					System.out.println("**** Displaying All Employees ******");
+					List<Employee> employeeList = service.getEmployee();
+					for(Employee e : employeeList) {
+						System.out.println(e.getEmpId()+ " "+e.getEmpName()+" "+e.getSalary()+" "+e.getDesignation());
+					}
+
+					break;
+				case 4:
+					System.out.println("Enter Id");
+					employee.setEmpId(ch.nextInt());
+					String  c=null;
+					
+					System.out.println("***** A sub menu to update the following ****\n(a)Name\n(b)Salary\n(c) Designation\n(d) Exit");
+					c=ch.next();
+					while(c!="d"){
+							
+							switch(c){
+					case "a":
+						System.out.println("Enter new name");
+						employee.setEmpName(ch.next());
+						service.update(employee);
+						System.out.println("***** A sub menu to update the following ****\n(a)Name\n(b)Salary\n(c) Designation\n(d) Exit");
+						c=ch.next();
+								
+						break;
+					case "b":
+						System.out.println("Enter new Salary");
+						employee.setSalary(ch.nextDouble());
+						service.update(employee);
+						System.out.println("***** A sub menu to update the following ****\n(a)Name\n(b)Salary\n(c) Designation\n(d) Exit");
+						c=ch.next();
+								
+						break;
+					case "c":
+						System.out.println("Enter new Designation");
+						employee.setDesignation(ch.next());
+						service.update(employee);
+						System.out.println("***** A sub menu to update the following ****\n(a)Name\n(b)Salary\n(c) Designation\n(d) Exit");
+						c=ch.next();
+								
+						break;
+							}
+					
+					}
+					break;
+				case 5:
+					System.out.println("Main Menu Exit");
+					System.out.println("Thank you for Visiting");
+			}
+			
+		}while(Choice<5);
+	}
+}
